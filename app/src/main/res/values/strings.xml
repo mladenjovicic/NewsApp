@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">NewsApp</string>
+    <string name="en_top_headlines">Top headlines</string>
+    <string name="en_everything">Everything</string>
+    <string name="en_category">Category</string>
+    <string name="en_search">Search</string>
+
+    <string-array name="category">
+        <item>general</item>
+        <item>technology</item>
+        <item>sports</item>
+        <item>science</item>
+        <item>health</item>
+        <item>entertainment</item>
+        <item>business</item>
+    </string-array>
+
+    <string-array name="sortBy">
+        <item>popularity</item>
+        <item>relevancy</item>
+        <item>publishedAt</item>
+    </string-array>
+</resources>
+
