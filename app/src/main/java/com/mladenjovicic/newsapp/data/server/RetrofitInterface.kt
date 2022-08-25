@@ -1,12 +1,10 @@
 package com.mladenjovicic.newsapp.data.server
 
 import com.mladenjovicic.newsapp.BuildConfig
-import com.mladenjovicic.newsapp.data.model.NewsModel
-import okhttp3.ResponseBody
+import com.mladenjovicic.newsapp.data.model.server.NewsServerModel
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
-import retrofit2.http.QueryMap
 
 
 interface RetrofitInterface {
@@ -18,7 +16,7 @@ interface RetrofitInterface {
         @Query("from") from:String?,
         @Query("to") to:String?,
         @Query("apiKey") apiKey: String = BuildConfig.API_KEY
-    ): Call<NewsModel>
+    ): Call<NewsServerModel>
 
     @GET("top-headlines")
     fun getServerNewsTopHeadlines(
@@ -27,5 +25,5 @@ interface RetrofitInterface {
         @Query("sources") sources:String?,
         @Query("domains") domains:String?,
         @Query("apiKey") apiKey: String = BuildConfig.API_KEY
-    ): Call<NewsModel>
+    ): Call<NewsServerModel>
 }

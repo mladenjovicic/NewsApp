@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.mladenjovicic.newsapp.ui.newsEverything.NewsEverythingViewModel
 import com.mladenjovicic.newsapp.ui.newsTopHeadlines.NewsTopHeadlinesViewModel
+import com.mladenjovicic.newsapp.ui.savedNews.SavedNewsViewModel
 
 object ViewModelsProviderUtils {
 
@@ -14,6 +15,17 @@ object ViewModelsProviderUtils {
     class NewsEverythingViewModelFactory : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return InjectorUtils.getNewsEverythingViewModel() as T
+        }
+    }
+
+
+
+    fun getSavedNewsViewModel(activity: FragmentActivity) =
+        ViewModelProvider(activity, SavedNewsViewModelFactory())[SavedNewsViewModel::class.java]
+
+    class SavedNewsViewModelFactory : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return InjectorUtils.getSavedNewsViewModel() as T
         }
     }
 

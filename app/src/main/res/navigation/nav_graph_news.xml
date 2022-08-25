@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_news"
+    app:startDestination="@id/newsEverythingFragment">
+    <fragment
+        android:id="@+id/newsEverythingFragment"
+        android:name="com.mladenjovicic.newsapp.ui.newsEverything.NewsEverythingFragment"
+        android:label="fragment_news_everything"
+        tools:layout="@layout/fragment_news_everything" />
+    <fragment
+        android:id="@+id/newsTopHeadlinesFragment"
+        android:name="com.mladenjovicic.newsapp.ui.newsTopHeadlines.NewsTopHeadlinesFragment"
+        android:label="fragment_top_headlines"
+        tools:layout="@layout/fragment_top_headlines" >
+        <action
+            android:id="@+id/action_newsTopHeadlinesFragment_to_newsEverythingFragment"
+            app:destination="@id/newsEverythingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/savedNewsFragment"
+        android:name="com.mladenjovicic.newsapp.ui.savedNews.SavedNewsFragment"
+        android:label="fragment_saved_news"
+        tools:layout="@layout/fragment_saved_news" >
+        <action
+            android:id="@+id/action_savedNewsFragment_to_newsEverythingFragment2"
+            app:destination="@id/newsEverythingFragment" />
+    </fragment>
+</navigation>

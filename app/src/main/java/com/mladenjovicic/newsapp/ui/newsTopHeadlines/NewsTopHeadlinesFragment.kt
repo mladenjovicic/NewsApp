@@ -66,7 +66,7 @@ class NewsTopHeadlinesFragment : Fragment(), AdapterView.OnItemSelectedListener 
                 viewModel.newsLiveData.observe(viewLifecycleOwner) { news ->
                     if (it != null) {
                         if (news.status == "ok") {
-                            recyclerViewNewsFeeds.setArticlesLiset(news.articles)
+                            recyclerViewNewsFeeds.setArticlesLiset(news.articles, requireActivity())
                             recyclerViewNewsFeeds.notifyDataSetChanged()
                         } else {
                             Toast.makeText(
@@ -95,14 +95,14 @@ class NewsTopHeadlinesFragment : Fragment(), AdapterView.OnItemSelectedListener 
             R.layout.spinner_item
         )
         adapterCategory.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        spinnerCategory?.adapter = adapterCategory
-        spinnerCategory?.onItemSelectedListener = this
+        spinnerCategory.adapter = adapterCategory
+        spinnerCategory.onItemSelectedListener = this
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         when (parent?.id) {
             R.id.spinnerCategory -> {
-                var category = parent?.getItemAtPosition(position).toString()
+                val category = parent.getItemAtPosition(position).toString()
                 getServerNewsTopHeadlines(category = category)
             }
         }

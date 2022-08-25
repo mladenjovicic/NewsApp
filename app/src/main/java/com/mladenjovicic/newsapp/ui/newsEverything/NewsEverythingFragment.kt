@@ -1,5 +1,6 @@
 package com.mladenjovicic.newsapp.ui.newsEverything
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -50,17 +51,17 @@ class NewsEverythingFragment : Fragment(), AdapterView.OnItemSelectedListener {
             if (editTextSearch.text.isNullOrBlank()) {
                 Toast.makeText(requireActivity(), "Error", Toast.LENGTH_LONG).show()
             } else {
-                getServerNewsEverythings(query = editTextSearch.text.toString(), sorting = sortBy)
+                getServerNewsEverything(query = editTextSearch.text.toString(), sorting = sortBy)
             }
         }
     }
 
 
-    private fun getServerNewsEverythings(
+    private fun getServerNewsEverything(
         query: String? = null,
         sorting: String? = null,
         from: String? = null,
-        to: String?? = null,
+        to: String? = null,
     ) {
         val newsLoadingSpinner = view?.findViewById<ProgressBar>(R.id.newsLoadingSpinner)
         viewModel.getServerNewsEverything(query = query, sorting = sorting, from = from, to = to)
@@ -72,7 +73,7 @@ class NewsEverythingFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 viewModel.newsLiveData.observe(viewLifecycleOwner) { news ->
                     if (it != null) {
                         if (news.status == "ok") {
-                            recyclerViewNewsFeeds.setArticlesLiset(news.articles)
+                            recyclerViewNewsFeeds.setArticlesLiset(news.articles, requireActivity())
                             recyclerViewNewsFeeds.notifyDataSetChanged()
                         } else {
                             Toast.makeText(
@@ -97,14 +98,14 @@ class NewsEverythingFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val adapterSortBy =
             ArrayAdapter.createFromResource(requireContext(), R.array.sortBy, R.layout.spinner_item)
         adapterSortBy.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        spinnerSortBy?.adapter = adapterSortBy
-        spinnerSortBy?.onItemSelectedListener = this
+        spinnerSortBy.adapter = adapterSortBy
+        spinnerSortBy.onItemSelectedListener = this
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         when (parent?.id) {
             R.id.spinnerSortBy -> {
-                sortBy = parent?.getItemAtPosition(position).toString()
+                sortBy = parent.getItemAtPosition(position).toString()
             }
         }
     }

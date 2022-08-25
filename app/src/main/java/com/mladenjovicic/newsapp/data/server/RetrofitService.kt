@@ -1,7 +1,7 @@
 package com.mladenjovicic.newsapp.data.server
 
 import androidx.lifecycle.MutableLiveData
-import com.mladenjovicic.newsapp.data.model.NewsModel
+import com.mladenjovicic.newsapp.data.model.server.NewsServerModel
 import com.mladenjovicic.newsapp.data.model.RequestState
 import retrofit2.Call
 import retrofit2.Response
@@ -16,17 +16,17 @@ class RetrofitService(retrofitInstance: RetrofitInstance) {
         query: String? = null,
         sorting: String? = null,
         from: String? = null,
-        to: String?? = null,
-        liveData: MutableLiveData<NewsModel>,
+        to: String? = null,
+        liveData: MutableLiveData<NewsServerModel>,
         requestState: MutableLiveData<RequestState>
     ) {
         requestState.postValue(RequestState.pending)
         val call = retrofitInterface.getServerNewsEverything(query, sorting, from, to)
 
-        call.enqueue(object : Callback<NewsModel> {
+        call.enqueue(object : Callback<NewsServerModel> {
             override fun onResponse(
-                call: Call<NewsModel>,
-                response: Response<NewsModel>
+                call: Call<NewsServerModel>,
+                response: Response<NewsServerModel>
             ) {
                 val body = response.body()
                 if (body != null) {
@@ -36,7 +36,7 @@ class RetrofitService(retrofitInstance: RetrofitInstance) {
                     requestState.postValue(RequestState.failed)
             }
 
-            override fun onFailure(call: Call<NewsModel>, t: Throwable) {
+            override fun onFailure(call: Call<NewsServerModel>, t: Throwable) {
                 requestState.postValue(
                     RequestState(
                         pending = false,
@@ -53,16 +53,16 @@ class RetrofitService(retrofitInstance: RetrofitInstance) {
         category: String? = null,
         sources: String? = null,
         domains: String? = null,
-        liveData: MutableLiveData<NewsModel>,
+        liveData: MutableLiveData<NewsServerModel>,
         requestState: MutableLiveData<RequestState>
     ) {
         requestState.postValue(RequestState.pending)
         val call = retrofitInterface.getServerNewsTopHeadlines(country, category, sources, domains)
 
-        call.enqueue(object : Callback<NewsModel> {
+        call.enqueue(object : Callback<NewsServerModel> {
             override fun onResponse(
-                call: Call<NewsModel>,
-                response: Response<NewsModel>
+                call: Call<NewsServerModel>,
+                response: Response<NewsServerModel>
             ) {
                 val body = response.body()
                 if (body != null) {
@@ -72,7 +72,7 @@ class RetrofitService(retrofitInstance: RetrofitInstance) {
                     requestState.postValue(RequestState.failed)
             }
 
-            override fun onFailure(call: Call<NewsModel>, t: Throwable) {
+            override fun onFailure(call: Call<NewsServerModel>, t: Throwable) {
                 requestState.postValue(
                     RequestState(
                         pending = false,

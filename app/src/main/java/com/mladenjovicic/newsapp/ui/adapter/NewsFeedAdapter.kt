@@ -1,25 +1,30 @@
 package com.mladenjovicic.newsapp.ui.adapter
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mladenjovicic.newsapp.R
-import com.mladenjovicic.newsapp.data.model.Articles
+import com.mladenjovicic.newsapp.data.model.server.ArticlesServerModel
 import com.squareup.picasso.Picasso
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
 import java.util.*
 
-class NewsFeedAdapter() : RecyclerView.Adapter<NewsFeedAdapter.MyViewHolder>() {
 
-    private var articlesList: List<Articles>? = null
+class NewsFeedAdapter : RecyclerView.Adapter<NewsFeedAdapter.MyViewHolder>() {
 
-    fun setArticlesLiset(articlesList: List<Articles>) {
+    private var articlesList: List<ArticlesServerModel>? = null
+    private lateinit var mContext: Activity
+
+
+    fun setArticlesLiset(articlesList: List<ArticlesServerModel>, mContext: Activity) {
         this.articlesList = articlesList
+        this.mContext = mContext
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -31,43 +36,39 @@ class NewsFeedAdapter() : RecyclerView.Adapter<NewsFeedAdapter.MyViewHolder>() {
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(articlesList?.get(position)!!)
         holder.itemView.setOnClickListener {
-            if (holder.FeedNewsBox != null) {
 
-            } else {
 
-            }
+            val myIntent = Intent(Intent.ACTION_VIEW, Uri.parse(articlesList?.get(position)!!.url))
+            mContext.startActivity(myIntent)
         }
     }
 
+
     override fun getItemCount(): Int {
-        if (articlesList == null) return 0
-        else return articlesList?.size!!
+        return if (articlesList == null) 0
+        else articlesList?.size!!
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val FeedNewsBox = itemView.findViewById<LinearLayout>(R.id.FeedNewsBox)
-        val imageViewSource = itemView.findViewById<ImageView>(R.id.imageViewSource)
-        val textViewPublishedAt = itemView.findViewById<TextView>(R.id.textViewPublishedAt)
-        val textViewAuthor = itemView.findViewById<TextView>(R.id.textViewAuthor)
-        val textViewTitle = itemView.findViewById<TextView>(R.id.textViewTitle)
+        private val imageViewSource = itemView.findViewById<ImageView>(R.id.imageViewSource)
+        private val textViewPublishedAt = itemView.findViewById<TextView>(R.id.textViewPublishedAt)
+        private val tvDescription = itemView.findViewById<TextView>(R.id.tvDescription)
+        private val tvTitle = itemView.findViewById<TextView>(R.id.tvTitle)
+        private val tvSource = itemView.findViewById<TextView>(R.id.tvSource)
 
-        fun bind(data: Articles) {
-            /*val inputFormatter: DateTimeFormatter =
-                DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SS'Z'", Locale.ENGLISH)
+        fun bind(data: ArticlesServerModel) {
+            val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+            val output = SimpleDateFormat("dd.MM.yyyy")
+            val d: Date = sdf.parse(data.publishedAt) as Date
+            val formattedTime: String = output.format(d)
 
-            val outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyy", Locale.ENGLISH)
-            val date = LocalDate.parse(data.publishedAt, inputFormatter)*/
+            textViewPublishedAt.text = formattedTime
+            tvTitle.text = data.title
+            tvDescription.text = data.description
+            tvSource.text = data.source.name
 
-            textViewPublishedAt.text = data.publishedAt
-            textViewAuthor.text = data.author
-            textViewTitle.text = data.title
-
-
-            if (data.urlToImage != null) {
-                Picasso.get().load(data.urlToImage).into(imageViewSource)
-            }
+            Picasso.get().load(data.urlToImage).into(imageViewSource)
         }
     }
-
 }
 

@@ -2,9 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/nav_everything"
+        android:id="@+id/newsEverythingFragment"
         android:title="@string/en_everything"/>
     <item
-        android:id="@+id/nav_topHeadlines"
+        android:id="@+id/newsTopHeadlinesFragment"
         android:title="@string/en_top_headlines"/>
+
+    <item
+        android:id="@+id/savedNewsFragment"
+        android:title="@string/en_saved_news"/>
 </menu>
