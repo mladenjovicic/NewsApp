@@ -1,6 +1,5 @@
 package com.mladenjovicic.newsapp.ui.adapter
 
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,18 +7,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mladenjovicic.newsapp.R
+import com.mladenjovicic.newsapp.data.model.local.ArticlesLocalModel
 import com.mladenjovicic.newsapp.data.model.server.ArticlesServerModel
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-class NewsFeedAdapter : RecyclerView.Adapter<NewsFeedAdapter.MyViewHolder>() {
-
-    private var articlesList: List<ArticlesServerModel>? = null
+class NewsFeedHistoryAdapter : RecyclerView.Adapter<NewsFeedHistoryAdapter.MyViewHolder>() {
 
 
-    fun setArticlesList(articlesList: List<ArticlesServerModel>) {
+    private var articlesList: List<ArticlesLocalModel>? = null
+
+
+    fun setArticlesList(articlesList: List<ArticlesLocalModel>) {
         this.articlesList = articlesList
     }
 
@@ -49,7 +49,7 @@ class NewsFeedAdapter : RecyclerView.Adapter<NewsFeedAdapter.MyViewHolder>() {
         private val tvTitle = itemView.findViewById<TextView>(R.id.tvTitle)
         private val tvSource = itemView.findViewById<TextView>(R.id.tvSource)
 
-        fun bind(data: ArticlesServerModel) {
+        fun bind(data: ArticlesLocalModel) {
             val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
             val output = SimpleDateFormat("dd.MM.yyyy")
             val d: Date = sdf.parse(data.publishedAt) as Date
@@ -58,7 +58,7 @@ class NewsFeedAdapter : RecyclerView.Adapter<NewsFeedAdapter.MyViewHolder>() {
             textViewPublishedAt.text = formattedTime
             tvTitle.text = data.title
             tvDescription.text = data.description
-            tvSource.text = data.source.name
+            tvSource.text = data.sourceName
 
             if (data.urlToImage != null) {
                 Picasso.get()
@@ -77,12 +77,9 @@ class NewsFeedAdapter : RecyclerView.Adapter<NewsFeedAdapter.MyViewHolder>() {
     }
 
 
-    private var onItemClickListener: ((ArticlesServerModel) -> Unit)? = null
+    private var onItemClickListener: ((ArticlesLocalModel) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (ArticlesServerModel) -> Unit) {
+    fun setOnItemClickListener(listener: (ArticlesLocalModel) -> Unit) {
         onItemClickListener = listener
     }
-
-
 }
-

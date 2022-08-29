@@ -8,11 +8,10 @@ import androidx.room.Query
 import com.mladenjovicic.newsapp.data.model.local.ArticlesLocalModel
 
 @Dao
-interface DAOAccesNews{
-
+interface DAOAccesNews {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNews(newsLocalModel: ArticlesLocalModel)
 
-    @Query("select * from articles")
+    @Query("select * from articles order by timeStampSave desc")
     fun getUsersList(): LiveData<List<ArticlesLocalModel>>
 }

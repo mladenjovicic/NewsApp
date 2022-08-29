@@ -26,7 +26,9 @@ data class ArticlesLocalModel(
     @ColumnInfo(name ="sourceId")
     var sourceId:String?,
     @ColumnInfo(name ="sourceName")
-    var sourceName:String?
+    var sourceName:String?,
+    @ColumnInfo(name ="timeStampSave")
+    var timeStampSave:String?
 )
 {
     @PrimaryKey(autoGenerate = true)

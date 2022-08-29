@@ -4,6 +4,13 @@
     <string name="en_everything">Everything</string>
     <string name="en_category">Category</string>
     <string name="en_search">Search</string>
+    <string name="en_source">SOURCE</string>
+    <string name="en_title">TITLE</string>
+    <string name="en_description">DESCRIPTION</string>
+    <string name="en_published_at">PUBLISHED AT</string>
+    <string name="en_news_image">News image</string>
+    <string name="en_saved_news">Saved news</string>
+    <string name="en_history">History</string>
 
     <string-array name="category">
         <item>general</item>

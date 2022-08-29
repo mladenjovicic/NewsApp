@@ -3,12 +3,15 @@
 
     <item
         android:id="@+id/newsEverythingFragment"
+        android:icon="@drawable/newspaper"
         android:title="@string/en_everything"/>
     <item
         android:id="@+id/newsTopHeadlinesFragment"
+        android:icon="@drawable/newspaper"
         android:title="@string/en_top_headlines"/>
 
     <item
         android:id="@+id/savedNewsFragment"
-        android:title="@string/en_saved_news"/>
+        android:icon="@drawable/history"
+        android:title="@string/en_history"/>
 </menu>

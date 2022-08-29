@@ -1,6 +1,7 @@
 package com.mladenjovicic.newsapp.ui.newsEverything
 
-import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,8 +17,8 @@ class NewsEverythingFragment : Fragment(), AdapterView.OnItemSelectedListener {
     lateinit var recyclerViewNewsFeeds: NewsFeedAdapter
     lateinit var spinnerSortBy: Spinner
     lateinit var editTextSearch: EditText
-    lateinit var btnSearch: Button
-    var sortBy = "popularity"
+    lateinit var ivBtnSearch:ImageView
+    private var sortBy = "popularity"
 
 
     companion object {
@@ -42,12 +43,13 @@ class NewsEverythingFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private fun subscribeUI() {
         viewModel = ViewModelsProviderUtils.getNewsEverythingViewModel(requireActivity())
         editTextSearch = view?.findViewById(R.id.editTextSearch)!!
-        btnSearch = view?.findViewById(R.id.btnSearch)!!
         spinnerSortBy = view?.findViewById(R.id.spinnerSortBy)!!
+        ivBtnSearch = view?.findViewById(R.id.ivBtnSearch)!!
 
         initRecyclerNewFeed()
         initSpinner()
-        btnSearch.setOnClickListener {
+
+        ivBtnSearch.setOnClickListener {
             if (editTextSearch.text.isNullOrBlank()) {
                 Toast.makeText(requireActivity(), "Error", Toast.LENGTH_LONG).show()
             } else {
@@ -73,7 +75,7 @@ class NewsEverythingFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 viewModel.newsLiveData.observe(viewLifecycleOwner) { news ->
                     if (it != null) {
                         if (news.status == "ok") {
-                            recyclerViewNewsFeeds.setArticlesLiset(news.articles, requireActivity())
+                            recyclerViewNewsFeeds.setArticlesList(news.articles)
                             recyclerViewNewsFeeds.notifyDataSetChanged()
                         } else {
                             Toast.makeText(
@@ -92,6 +94,22 @@ class NewsEverythingFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val recyclerViewNewsFeed = view?.findViewById<RecyclerView>(R.id.recyclerViewNewsFeed)
         recyclerViewNewsFeeds = NewsFeedAdapter()
         recyclerViewNewsFeed?.adapter = recyclerViewNewsFeeds
+        recyclerViewNewsFeeds.setOnItemClickListener { news ->
+            viewModel.addNewsLocal(
+                author = news.author,
+                title = news.title,
+                description = news.description,
+                publishedAt = news.publishedAt,
+                content = news.content,
+                url = news.url,
+                urlToImage = news.urlToImage,
+                sourceId = news.source.id,
+                sourceName = news.source.name,
+                timeStampSave = System.currentTimeMillis().toString()
+            )
+            val myIntent = Intent(Intent.ACTION_VIEW, Uri.parse(news.url))
+            startActivity(myIntent)
+        }
     }
 
     private fun initSpinner() {

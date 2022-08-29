@@ -1,5 +1,7 @@
 package com.mladenjovicic.newsapp.ui.newsTopHeadlines
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -66,7 +68,7 @@ class NewsTopHeadlinesFragment : Fragment(), AdapterView.OnItemSelectedListener 
                 viewModel.newsLiveData.observe(viewLifecycleOwner) { news ->
                     if (it != null) {
                         if (news.status == "ok") {
-                            recyclerViewNewsFeeds.setArticlesLiset(news.articles, requireActivity())
+                            recyclerViewNewsFeeds.setArticlesList(news.articles)
                             recyclerViewNewsFeeds.notifyDataSetChanged()
                         } else {
                             Toast.makeText(
@@ -86,6 +88,22 @@ class NewsTopHeadlinesFragment : Fragment(), AdapterView.OnItemSelectedListener 
             view?.findViewById<RecyclerView>(R.id.recyclerViewTopHeadlinesNewsFeed)
         recyclerViewNewsFeeds = NewsFeedAdapter()
         recyclerViewNewsFeed?.adapter = recyclerViewNewsFeeds
+        recyclerViewNewsFeeds.setOnItemClickListener { news ->
+            viewModel.addNewsLocal(
+                author = news.author,
+                title = news.title,
+                description = news.description,
+                publishedAt = news.publishedAt,
+                content = news.content,
+                url = news.url,
+                urlToImage = news.urlToImage,
+                sourceId = news.source.id,
+                sourceName = news.source.name,
+                timeStampSave = System.currentTimeMillis().toString()
+            )
+            val myIntent = Intent(Intent.ACTION_VIEW, Uri.parse(news.url))
+            startActivity(myIntent)
+        }
     }
 
     private fun initSpinner() {
