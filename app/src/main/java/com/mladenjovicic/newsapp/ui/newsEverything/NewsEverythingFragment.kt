@@ -48,6 +48,7 @@ class NewsEverythingFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         initRecyclerNewFeed()
         initSpinner()
+        showResponseNews()
 
         ivBtnSearch.setOnClickListener {
             if (editTextSearch.text.isNullOrBlank()) {
@@ -65,8 +66,13 @@ class NewsEverythingFragment : Fragment(), AdapterView.OnItemSelectedListener {
         from: String? = null,
         to: String? = null,
     ) {
-        val newsLoadingSpinner = view?.findViewById<ProgressBar>(R.id.newsLoadingSpinner)
         viewModel.getServerNewsEverything(query = query, sorting = sorting, from = from, to = to)
+        showResponseNews()
+    }
+
+    private fun showResponseNews(){
+
+        val newsLoadingSpinner = view?.findViewById<ProgressBar>(R.id.newsLoadingSpinner)
         viewModel.requestState.observe(viewLifecycleOwner) {
             if (it.pending)
                 newsLoadingSpinner!!.visibility = View.VISIBLE
@@ -88,6 +94,8 @@ class NewsEverythingFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 }
             }
         }
+
+
     }
 
     private fun initRecyclerNewFeed() {
